@@ -1,13 +1,12 @@
 import requests
 import numpy as np
 import streamlit as st
-import io
-import joblib
+import pickle
 
-# Function to load model from a URL
+# Function to load model from a URL using pickle
 def load_model_from_url(url):
     response = requests.get(url)
-    model = joblib.load(io.BytesIO(response.content))
+    model = pickle.loads(response.content)
     return model
 
 # Load the model from the GitHub URL
