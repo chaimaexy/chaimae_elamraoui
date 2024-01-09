@@ -1,21 +1,22 @@
-import requests
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan  8 23:32:32 2024
+
+@author: nihqd
+"""
+
 import numpy as np
+import pickle 
 import streamlit as st
-import pickle
 
-# Function to load model from a URL using pickle
-def load_model_from_url(url):
-    response = requests.get(url)
-    model = pickle.loads(response.content)
-    return model
+loaded_model = pickle.load(open('D:\\FirstDeployment\\trained_modelIntell.sav', 'rb'))
 
-# Load the model from the GitHub URL
-model_url = 'https://github.com/Niihaad/ML_Algorithms/raw/main/trained_modelIntell.sav'
-loaded_model = load_model_from_url(model_url)
 
 def smartness_prediction(input_data):
+    # Example of input_data = [[0.9, 0.7, 0.1]]
     predicted_outcome = loaded_model.predict(input_data)
-    return 'You are ' + str(predicted_outcome[0])
+    return 'You are ' + str(predicted_outcome[0])  # Convert the prediction to a string
+
 
 def main():
     st.title('Test Your Level of Smartness By Nihad ')
@@ -27,16 +28,21 @@ def main():
     total = ''
     if st.button("Predict Smartness"):
         try:
+            # Convert inputs to floats
             gpt_val = float(usingGpt)
             google_val = float(usingGoogle)
             mind_val = float(usingMind)
             input_data = np.array([gpt_val, google_val, mind_val]).reshape(1, -1)
+
+            # Perform prediction
             total = smartness_prediction(input_data)
         except ValueError as e:
             st.error(f"Error: {e}. Please enter valid numerical values.")
-            total = "Please enter valid numerical values."
+            total = "Please enter valid numerical values ."
 
     st.success(total)
     
-if __name__=='__main__':
+    #only when it is running from standalone file 
+if  __name__=='__main__':
     main()
+    
