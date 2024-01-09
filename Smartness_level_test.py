@@ -9,7 +9,22 @@ import numpy as np
 import pickle 
 import streamlit as st
 
-loaded_model = pickle.load(open('D:\\FirstDeployment\\trained_modelIntell.sav', 'rb'))
+import requests
+from io import BytesIO
+
+# Replace 'Niihaad', 'ML_Algorithms', and 'trained_modelIntell.sav' with your details
+github_username = 'Niihaad'
+repo_name = 'ML_Algorithms'
+file_path = 'trained_modelIntell.sav'
+
+# Construct the raw file URL on GitHub
+raw_url = f'https://raw.githubusercontent.com/{github_username}/{repo_name}/main/{file_path}'
+
+# Fetch the model file from GitHub
+response = requests.get(raw_url)
+
+# Load the model from the response content
+loaded_model = pickle.load(BytesIO(response.content))
 
 
 def smartness_prediction(input_data):
