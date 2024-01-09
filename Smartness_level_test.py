@@ -8,10 +8,17 @@ def load_model_from_url(url):
     response = requests.get(url)
     model = pickle.loads(response.content)
     return model
+    
 
 # Load the model from the GitHub URL
-model_url = 'https://github.com/Niihaad/ML_Algorithms/raw/main/trained_modelIntell.sav'
-loaded_model = load_model_from_url(model_url)
+import pickle
+
+# Replace 'path/to/trained_modelIntell.sav' with the actual path to the downloaded file
+model_path = 'https://github.com/Niihaad/ML_Algorithms/blob/main/trained_modelIntell.sav'
+
+# Load the model using pickle
+with open(model_path, 'rb') as file:
+    loaded_model = pickle.load(file)
 
 def smartness_prediction(input_data):
     predicted_outcome = loaded_model.predict(input_data)
