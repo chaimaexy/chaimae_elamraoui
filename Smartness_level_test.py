@@ -18,7 +18,7 @@ repo_name = 'ML_Algorithms'
 file_path = 'trained_modelIntell.sav'
 
 # Construct the raw file URL on GitHub
-raw_url = f'https://raw.githubusercontent.com/{github_username}/{repo_name}/main/{file_path}'
+raw_url = 'https://github.com/Niihaad/ML_Algorithms/blob/main/trained_modelIntell.sav'
 
 # Fetch the model file from GitHub
 response = requests.get(raw_url)
