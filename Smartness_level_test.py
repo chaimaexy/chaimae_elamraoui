@@ -28,7 +28,7 @@ def smartness_prediction(input_data, model):
 
 def main():
     st.title('Test Your Level of Smartness By Nihad')
-    model_url = 'https://github.com/Niihaad/ML_Algorithms/raw/main/trained_modelIntell.sav'
+    model_url = 'https://github.com/Niihaad/ML_Algorithms/blob/main/trained_modelIntell.sav'
     loaded_model = load_model_from_github(model_url)
     
     usingGpt = st.text_input('On a scale from 0 to 1, how frequently do you use ChatGPT?')
