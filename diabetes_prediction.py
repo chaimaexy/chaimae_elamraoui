@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan  8 22:21:27 2024
-@author: nihqd
-"""
 import numpy as np
 import pickle 
 import streamlit as st
@@ -10,10 +5,12 @@ import requests
 from io import BytesIO
 
 def load_model_from_github(model_url):
+    st.write("Fetching the model...")
     response = requests.get(model_url)
     if response.status_code == 200:
         try:
             loaded_model = pickle.load(BytesIO(response.content))
+            st.write("Model loaded successfully!")
             return loaded_model
         except Exception as e:
             st.error(f"Error loading the model: {e}")
