@@ -1,54 +1,57 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan  8 22:21:27 2024
+@author: nihqd
+"""
 import numpy as np
 import pickle 
 import streamlit as st
-import requests
-from io import BytesIO
 
-def load_model_from_github(model_url):
-    st.write("Fetching the model...")
-    response = requests.get(model_url)
-    if response.status_code == 200:
-        try:
-            loaded_model = pickle.load(BytesIO(response.content))
-            st.write("Model loaded successfully!")
-            return loaded_model
-        except Exception as e:
-            st.error(f"Error loading the model: {e}")
-            return None
-    else:
-        st.error("Failed to fetch the model")
-        return None
+loaded_model = pickle.load(open('D:\\FirstDeployment\\trained_model.sav', 'rb'))
 
-def smartness_prediction(input_data, model):
-    if model:
-        predicted_outcome = model.predict(input_data)
-        return f'Predicted smartness level: {predicted_outcome[0]}'
+#creating a function for prediction
+def diabetics_prediction(input_data):
+   
+    input_data_as_numpy_array = np.asarray(input_data)
+
+    # reshape the array as we are predicting for one instance
+    input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+
+    prediction = loaded_model.predict(input_data_reshaped)
+    print(prediction)
+
+    if (prediction[0] == 0):
+      return('The person is not diabetic')
     else:
-        return "Model not loaded properly"
+     return('The person is diabetic')
+ 
 
 def main():
-    st.title('Test Your Level of Smartness By Nihad')
-    model_url = 'https://github.com/Niihaad/ML_Algorithms/raw/main/trained_modelIntell.sav'
-    loaded_model = load_model_from_github(model_url)
+    #setting a ti = st.text_input('Set the number of Preganancies')tle for our app
+    st.title('Diabetes Prediction By Nihad')
+    #getting the input from user
     
-    usingGpt = st.text_input('On a scale from 0 to 1, how frequently do you use ChatGPT?')
-    usingGoogle = st.text_input('On a scale from 0 to 1, how often do you rely on Google?')
-    usingMind = st.text_input('On a scale from 0 to 1, how frequently do you engage your mind?')
+    Pregnancies = st.text_input('Set the number of Preganancies')
+    Glucose = st.text_input('Set the level of Glucose')
+    BloodPressure = st.text_input('Set the  value of BloodPressure')
     
-    total = ''
-    if st.button("Predict Smartness"):
-        try:
-            gpt_val = float(usingGpt)
-            google_val = float(usingGoogle)
-            mind_val = float(usingMind)
-            input_data = np.array([gpt_val, google_val, mind_val]).reshape(1, -1)
-
-            total = smartness_prediction(input_data, loaded_model)
-        except ValueError as e:
-            st.error(f"Error: {e}. Please enter valid numerical values.")
-            total = "Please enter valid numerical values."
-
-    st.success(total)
-
-if __name__=='__main__':
-    main()
+    SkinThickness = st.text_input('Set the value of SkinThickness')
+    Insulin = st.text_input('Set the level of Insulin')
+    BMI = st.text_input('Set the BMI')
+    DiabetesPedigreeFunction  = st.text_input('Set the degree of DiabetesPedigreeFunction')
+    Age  = st.text_input('Set your age')
+    
+    
+    
+    #prediction code
+    diagnosis = ''
+    
+    #Button of prediction
+    if st.button("Diabetes Test"):
+        diagnosis = diabetics_prediction([Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age])
+    
+    st.success(diagnosis)
+    
+    #only when it is running from standalone file 
+if  _name=='__main_':
+    main()
