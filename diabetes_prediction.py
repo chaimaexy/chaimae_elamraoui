@@ -7,18 +7,15 @@ import numpy as np
 import pickle 
 import streamlit as st
 import requests
+from io import BytesIO
 
 # Download the model from GitHub
 model_url = 'https://github.com/Niihaad/ML_Algorithms/raw/main/trained_modelIntell.sav'
 response = requests.get(model_url)
 
-# Save the downloaded model to a local file
+# Load the model from the downloaded content
 if response.status_code == 200:
-    with open('trained_model.sav', 'wb') as f:
-        f.write(response.content)
-
-# Load the model
-loaded_model = pickle.load(open('trained_model.sav', 'rb'))
+    loaded_model = pickle.load(BytesIO(response.content))
 
 # Function for prediction
 def smartness_prediction(input_data):
@@ -52,5 +49,4 @@ def main():
 if __name__=='__main__':
     main()
 
-    
     
